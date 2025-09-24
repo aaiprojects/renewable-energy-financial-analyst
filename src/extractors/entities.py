@@ -1,0 +1,1 @@
+# TODO: regex and rules for MW, subsidies, entities, sentiment

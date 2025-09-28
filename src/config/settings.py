@@ -10,6 +10,7 @@ class Settings:
     alphavantage_key: str = os.getenv("ALPHAVANTAGE_KEY", "")
     fred_api_key: str = os.getenv("FRED_API_KEY", "")
     sec_user_agent: str = os.getenv("SEC_USER_AGENT", "Your Name your-email@example.com")
+    sec_api_key: str = os.getenv("SECAPI_KEY", "")
     default_lookback_days: int = int(os.getenv("DEFAULT_LOOKBACK_DAYS", "30"))
     log_level: str = os.getenv("LOG_LEVEL", "INFO")
     enforce_renewables: bool = _bool_env("ENFORCE_RENEWABLES", False)

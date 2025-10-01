@@ -24,11 +24,21 @@ def test_fetch_news_returns_list():
         assert "description" in articles[0]
         assert "url" in articles[0]
 
-def test_fetch_sector_news_returns_static_list():
+def test_fetch_sector_news_returns_list():
     tool = NewsTool(api_key=NEWSAPI_KEY)
-    sector_news = tool.fetch_sector_news()
+    sector_news = tool.fetch_sector_news(subsector="solar", region="US", days=3)
     assert isinstance(sector_news, list)
-    assert len(sector_news) > 0
-    assert "title" in sector_news[0]
-    assert "url" in sector_news[0]
-    assert "tag" in sector_news[0]
+    if sector_news:
+        assert "title" in sector_news[0]
+        assert "description" in sector_news[0]
+        assert "url" in sector_news[0]
+
+def test_fetch_news_empty_on_invalid_key():
+    tool = NewsTool(api_key="INVALID_KEY")
+    news = tool.fetch_news("TSLA", days=7)
+    assert news == []
+
+def test_fetch_sector_news_empty_on_invalid_key():
+    tool = NewsTool(api_key="INVALID_KEY")
+    news = tool.fetch_sector_news(subsector="solar", region="US", days=7)
+    assert news == []

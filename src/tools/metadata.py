@@ -24,7 +24,7 @@ class MetadataTool:
         if yf is None:
             md = TickerMetadata(ticker=ticker)
             self._cache[ticker] = md
-            return md
+            return md   
         t = yf.Ticker(ticker)
         sector = industry = long_name = None
         try:

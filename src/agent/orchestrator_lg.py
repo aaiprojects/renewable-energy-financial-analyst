@@ -24,7 +24,7 @@ class LGOrchestrator:
         self.prices = PricesTool()
         self.news = NewsTool(api_key=settings.newsapi_key)
         self.macro = MacroTool(api_key=settings.fred_api_key)
-        self.filings = FilingsTool(user_agent=settings.sec_user_agent)
+        self.filings = FilingsTool(api_key=settings.sec_api_key)
         self.meta = MetadataTool()
         self._graph = self._build_graph()
 

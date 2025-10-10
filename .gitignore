@@ -94,6 +94,7 @@ logs/
 # API keys and secrets
 secrets.json
 config.json
+.env
 
 # macOS
 .DS_Store

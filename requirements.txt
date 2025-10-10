@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 aiohappyeyeballs==2.6.1
 aiohttp==3.12.15
 aiosignal==1.4.0
@@ -253,3 +254,29 @@ yfinance==0.2.66
 youtube-transcript-api==1.2.2
 zipp==3.23.0
 zstandard==0.25.0
+=======
+# Core
+python-dotenv>=1.0.1
+pydantic>=2.8.2
+requests>=2.32.3
+pandas>=2.2.2
+numpy>=2.0.1
+scikit-learn>=1.5.1
+beautifulsoup4>=4.12.3
+matplotlib>=3.9.1
+streamlit>=1.37.0
+pytest
+
+# Agents / Orchestration (mandatory in this build)
+langchain>=0.2.10
+langgraph>=0.2.20
+crewai>=0.28.8
+openai>=1.43.0
+crewai-tools
+
+# Tools
+yfinance>=0.2.43
+fredapi>=0.5.2
+newsapi-python>=0.2.7
+sec-api>=1.0.32
+>>>>>>> 0feb0d3b925af8ebad782ef2b2fd359a1a4b47c1

@@ -1,6 +1,8 @@
 # app.py — Streamlit UI (strict: LangGraph + CrewAI only)
 import streamlit as st
 import pandas as pd
+from dotenv import load_dotenv
+load_dotenv()  # 👈 ensures .env is read before anything else
 
 from src.config.settings import Settings
 from src.config.watchlist import WATCHLIST
@@ -10,6 +12,7 @@ from src.agent.orchestrator_lg import LGOrchestrator  # strict import
 
 st.set_page_config(page_title="Renewable Energy Financial Analyst", layout="wide")
 st.title("🔆 Renewable Energy Financial Analyst — Sector Dashboard")
+
 
 # Sidebar
 with st.sidebar:

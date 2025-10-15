@@ -1,6 +1,8 @@
 # app.py — Streamlit UI (strict: LangGraph + CrewAI only)
 import streamlit as st
 import pandas as pd
+from dotenv import load_dotenv
+load_dotenv()  # 👈 ensures .env is read before anything else
 
 from src.config.settings import Settings
 from src.config.watchlist import WATCHLIST
@@ -18,6 +20,7 @@ except ImportError:
 st.set_page_config(page_title="Renewable Energy Financial Analyst", layout="wide")
 st.title("🔆 Renewable Energy Financial Analyst — Enhanced with Real Data Sources")
 st.caption("📡 Now powered by NewsAPI, SEC EDGAR, and FRED for real-time analysis")
+
 
 # Sidebar
 with st.sidebar:

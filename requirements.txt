@@ -22,3 +22,5 @@ crewai-tools
 yfinance>=0.2.43
 fredapi>=0.5.2
 newsapi-python>=0.2.7
+sec-api>=1.0.32
+textblob

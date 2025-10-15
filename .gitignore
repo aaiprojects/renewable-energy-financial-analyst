@@ -154,3 +154,7 @@ mem/learnings.jsonl
 # Executive summary files (auto-generated)
 executive_summary*.json
 executive_summary*.md
+
+# Generated chart files
+fixed_chart.html
+*.html

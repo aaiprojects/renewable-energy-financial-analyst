@@ -91,31 +91,68 @@ with st.sidebar:
 # Deep Dive
 with tab_deepdive:
     st.subheader("Company Analysis (LangGraph + CrewAI)")
+    
+    # Individual analysis
     options = [f"{w.ticker} — {w.name}" for w in (wl_filtered or WATCHLIST)]
     choice = st.selectbox("Select a company", options)
     selected_ticker = choice.split(" — ")[0]
 
-    if st.button("Run Deep Dive"):
-        cfg = Settings()
-        orch = LGOrchestrator(cfg)   # strict: must exist/import
-        with st.spinner(f"Running analysis for {selected_ticker}..."):
-            report = orch.run(ticker=selected_ticker, days=int(dd_days), refresh=dd_refresh)
-        st.success("Analysis complete.")
-        st.metric("Recommendation", report.get("recommendation", "WATCH"))
-        st.metric("Confidence", f"{round(report.get('confidence', 0.5)*100)}%")
-        scores = report.get("scores", {})
-        if scores:
-            st.write(pd.DataFrame([scores], index=[report.get("ticker", selected_ticker)]))
-        st.subheader("Executive Summary")
-        st.write(report.get("summary", "No summary available."))
-        st.subheader("Citations")
-        citations = report.get("citations", [])
-        if citations:
-            for url in citations:
-                st.write(f"- {url}")
-        else:
-            st.info("No citations available")
-        
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        if st.button("Run Deep Dive"):
+            cfg = Settings()
+            orch = LGOrchestrator(cfg)   # strict: must exist/import
+            with st.spinner(f"Running analysis for {selected_ticker}..."):
+                report = orch.run(ticker=selected_ticker, days=int(dd_days), refresh=dd_refresh)
+            st.success("Analysis complete.")
+            st.metric("Recommendation", report.get("recommendation", "WATCH"))
+            st.metric("Confidence", f"{round(report.get('confidence', 0.5)*100)}%")
+            scores = report.get("scores", {})
+            if scores:
+                st.write(pd.DataFrame([scores], index=[report.get("ticker", selected_ticker)]))
+            st.subheader("Executive Summary")
+            st.write(report.get("summary", "No summary available."))
+            st.subheader("Citations")
+            citations = report.get("citations", [])
+            if citations:
+                for url in citations:
+                    st.write(f"- {url}")
+            else:
+                st.info("No citations available")
+    
+    with col2:
+        if st.button("🎯 Run All Watchlist", help="Analyze all stocks in the watchlist (may take several minutes)"):
+            cfg = Settings()
+            orch = LGOrchestrator(cfg)
+            
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            total_stocks = len(wl_filtered or WATCHLIST)
+            analyzed = 0
+            
+            for i, w in enumerate(wl_filtered or WATCHLIST):
+                status_text.text(f"Analyzing {w.ticker} ({w.name})...")
+                progress_bar.progress((i) / total_stocks)
+                
+                try:
+                    with st.spinner(f"Running analysis for {w.ticker}..."):
+                        report = orch.run(ticker=w.ticker, days=int(dd_days), refresh=dd_refresh)
+                    analyzed += 1
+                    st.success(f"✅ {w.ticker}: {report.get('recommendation', 'N/A')} ({round(report.get('confidence', 0)*100)}%)")
+                except Exception as e:
+                    st.error(f"❌ {w.ticker}: Analysis failed - {str(e)}")
+                
+                progress_bar.progress((i + 1) / total_stocks)
+            
+            status_text.text("Analysis complete!")
+            st.success(f"🎉 Analyzed {analyzed}/{total_stocks} stocks. Check the Executive Summary dashboard!")
+            
+    st.divider()
+    
+    # Show results if individual analysis was run
+    if 'report' in locals():
         # Enhanced data sources info
         if "data_sources" in report:
             st.subheader("📊 Data Sources Used")

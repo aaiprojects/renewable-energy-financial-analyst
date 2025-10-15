@@ -90,6 +90,10 @@ class LGOrchestrator:
             return state
 
         def synthesize(state: State) -> State:
+            import json
+            import os
+            from datetime import datetime, timezone
+            
             # Enhanced synthesis with real data
             ticker = state["ticker"]
             news_count = len(state.get("news_items", []))
@@ -124,11 +128,74 @@ class LGOrchestrator:
             avg_score = (news_score + macro_score + filings_score + momentum_score) / 4
             if avg_score >= 0.7:
                 recommendation = "BUY"
+                market_outlook = "🟢 Bullish"
             elif avg_score >= 0.5:
                 recommendation = "WATCH"
+                market_outlook = "🟡 Neutral"
             else:
                 recommendation = "AVOID"
+                market_outlook = "🔴 Bearish"
             
+            # Get CrewAI analysis results
+            analyses = state.get("analyses", [])
+            agents_data = {}
+            
+            if analyses and len(analyses) > 0:
+                crew_analysis = analyses[0]
+                # Create agent summaries based on available data
+                agents_data = {
+                    "News & Sentiment Analyst": {
+                        "summary": f"Analysis of {news_count} news items for {ticker} in the renewable energy sector with sentiment scoring.",
+                        "confidence": news_score,
+                        "weight": 1.0
+                    },
+                    "Earnings Analyst": {
+                        "summary": f"Fundamental analysis of {ticker} based on {filings_count} SEC filings and financial metrics.",
+                        "confidence": filings_score,
+                        "weight": 1.0
+                    },
+                    "Market/Technical Analyst": {
+                        "summary": f"Technical analysis of {ticker} price trends and momentum indicators.",
+                        "confidence": momentum_score,
+                        "weight": 1.0
+                    }
+                }
+            
+            # Create comprehensive executive summary structure
+            executive_summary = {
+                "ticker": ticker,
+                "company_name": state.get("metadata", {}).get("name", f"{ticker} Company"),
+                "analysis_date": datetime.now(timezone.utc).isoformat(),
+                "recommendation": recommendation,
+                "confidence": {
+                    "overall": avg_score,
+                    "technical": momentum_score,
+                    "fundamental": filings_score,
+                    "sentiment": news_score,
+                    "macro": macro_score
+                },
+                "market_outlook": market_outlook,
+                "summary": f"Comprehensive analysis for {ticker} based on {news_count} news items, {filings_count} SEC filings, macroeconomic data, and price trends. Enhanced with real-time data sources.",
+                "agents": agents_data,
+                "run_timestamp": datetime.now(timezone.utc).isoformat(),
+                "data_sources": {
+                    "news_articles": news_count,
+                    "sec_filings": filings_count,
+                    "macro_indicators": len(state.get("macro_data", {})),
+                    "price_history_days": len(prices_df) if prices_df is not None else 0
+                },
+                "citations": citations
+            }
+            
+            # Save executive summary as JSON file automatically
+            try:
+                filename = f"executive_summary_{ticker}.json"
+                with open(filename, 'w', encoding='utf-8') as f:
+                    json.dump(executive_summary, f, indent=2, ensure_ascii=False)
+                print(f"✅ Saved executive summary to {filename}")
+            except Exception as e:
+                print(f"⚠️ Failed to save executive summary for {ticker}: {e}")
+
             report = {
                 "ticker": ticker,
                 "summary": f"Comprehensive analysis for {ticker} based on {news_count} news items, {filings_count} SEC filings, macroeconomic data, and price trends. Enhanced with real-time data sources.",

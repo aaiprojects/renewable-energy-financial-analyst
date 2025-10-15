@@ -67,6 +67,9 @@ def load_current_and_previous_runs() -> tuple[dict, dict, Path | None]:
 
 def compute_confidence_deltas(current: dict, previous: dict) -> pd.DataFrame:
     """Build a comparison DataFrame for Streamlit display."""
+    from datetime import datetime, timezone
+    import pandas as pd
+    
     rows = []
     for ticker, cur_data in current.items():
         cur_conf = float(cur_data.get("confidence", {}).get("overall", 0))
@@ -76,17 +79,36 @@ def compute_confidence_deltas(current: dict, previous: dict) -> pd.DataFrame:
         outlook = cur_data.get("market_outlook", "Neutral")
         agents = cur_data.get("agents", {})
         interp = extract_interpretation(agents)
+        
+        # Get timestamp information
+        run_timestamp = cur_data.get("run_timestamp") or cur_data.get("analysis_date")
+        if not run_timestamp:
+            # Default timestamp for older files
+            run_timestamp = datetime.now(timezone.utc).isoformat()
+        
+        # Parse timestamp to ensure proper format
+        try:
+            if isinstance(run_timestamp, str):
+                # Convert to pandas datetime for proper chart rendering
+                parsed_timestamp = pd.to_datetime(run_timestamp)
+            else:
+                parsed_timestamp = pd.to_datetime(datetime.now(timezone.utc))
+        except:
+            parsed_timestamp = pd.to_datetime(datetime.now(timezone.utc))
+        
         rows.append({
             "Ticker": ticker,
             "Outlook": outlook,
             "Confidence": round(cur_conf * 100, 1),
             "Delta": round(delta * 100, 1),
             "Direction": direction,
-            "Interpretation": interp or "—"
+            "Interpretation": interp or "—",
+            "Run Timestamp": parsed_timestamp
         })
+    
     df = pd.DataFrame(rows)
     if df.empty:
-        return pd.DataFrame(columns=["Ticker", "Outlook", "Confidence", "Delta", "Direction", "Interpretation"])
+        return pd.DataFrame(columns=["Ticker", "Outlook", "Confidence", "Delta", "Direction", "Interpretation", "Run Timestamp"])
     return df.sort_values("Ticker")
 
 

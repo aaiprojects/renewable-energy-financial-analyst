@@ -150,3 +150,7 @@ docs/site/
 # Archive and memory files (auto-generated)
 archive/
 mem/learnings.jsonl
+
+# Executive summary files (auto-generated)
+executive_summary*.json
+executive_summary*.md

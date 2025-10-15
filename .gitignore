@@ -146,4 +146,7 @@ docs/site/
 
 # Profiling data
 .prof
+
+# Archive and memory files (auto-generated)
 archive/
+mem/learnings.jsonl

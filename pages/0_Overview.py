@@ -51,16 +51,16 @@ st.markdown("""
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
 }
 [data-testid="stSidebar"] {
-    background-color: #111418;
-    border-right: 1px solid rgba(0, 212, 255, 0.2);
+  background-color: #111418;
+  border-right: 1px solid rgba(0, 212, 255, 0.2);
 }
 [data-testid="stSidebarNav"]::before {
-    content: "🚀 Renewable Energy Financial Analyst";
-    margin-left: 20px;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #00d4ff;
-    letter-spacing: 0.5px;
+  content: "🚀 Renewable Energy Financial Analyst";
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #00d4ff;
+  letter-spacing: 0.5px;
 }
 </style>
 
@@ -77,22 +77,22 @@ st.markdown("### 🌟 Key Features")
 c1, c2, c3 = st.columns(3)
 c1.markdown("""
 <div class="feature-card">
-    <h3>💼 Executive Summary Pro+</h3>
-    <p>Generates structured AI-driven reports with confidence analysis, market outlooks, and agent consensus metrics.</p>
+  <h3>💼 Executive Summary Pro+</h3>
+  <p>Generates structured AI-driven reports with confidence analysis, market outlooks, and agent consensus metrics.</p>
 </div>
 """, unsafe_allow_html=True)
 
 c2.markdown("""
 <div class="feature-card">
-    <h3>📊 Analytics Dashboard</h3>
-    <p>Interactive visualization suite for trend tracking, delta comparison, and performance monitoring across runs.</p>
+  <h3>📊 Analytics Dashboard</h3>
+  <p>Interactive visualization suite for trend tracking, delta comparison, and performance monitoring across runs.</p>
 </div>
 """, unsafe_allow_html=True)
 
 c3.markdown("""
 <div class="feature-card">
-    <h3>📁 Run History & Archive</h3>
-    <p>View historical results, track model stability, and export detailed analytics across multiple simulation cycles.</p>
+  <h3>📁 Run History & Archive</h3>
+  <p>View historical results, track model stability, and export detailed analytics across multiple simulation cycles.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -105,10 +105,10 @@ st.markdown("### 🧭 Quick Navigation")
 colA, colB = st.columns(2)
 with colA:
     if st.button("💼 Go to Executive Summary Pro+", use_container_width=True):
-        st.switch_page("pages/1_📈_Executive_Summary_ProPlus.py")
+        st.switch_page("pages/1_Executive_Summary_ProPlus.py")
 with colB:
     if st.button("📊 Open Analytics Dashboard", use_container_width=True):
-        st.switch_page("pages/2_📊_Analytics_Dashboard.py")
+        st.switch_page("pages/2_Analytics_Dashboard.py")
 
 # ==============================================================
 # 🕒 Footer / Last Updated
@@ -117,5 +117,5 @@ st.markdown("---")
 last_refresh = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 st.markdown(
     f"<div style='text-align:center;font-size:13px;color:gray;'>⏱️ Last updated: <b>{last_refresh}</b></div>",
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )

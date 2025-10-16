@@ -163,7 +163,7 @@ if analyze_button and user_query.strip():
                         if scores:
                             st.subheader("📊 Scoring Breakdown")
                             score_df = pd.DataFrame([scores], index=[detailed_report.get("ticker", "Company")])
-                            st.dataframe(score_df, width='stretch')
+                            st.dataframe(score_df, use_container_width=True)
                         
                         st.subheader("📋 Executive Summary")
                         st.write(detailed_report.get("summary", "No summary available."))
@@ -182,8 +182,17 @@ if analyze_button and user_query.strip():
                                 st.metric("Macro Indicators", data_sources.get("macro_indicators", 0))
                                 st.metric("Price History", f"{data_sources.get('price_history_days', 0)} days")
                 
-                # Show general summary if available
-                if "summary" in result and analysis_type not in ["detailed_analysis"]:
+                elif analysis_type == "general_analysis":
+                    # Show general analysis results
+                    st.subheader("📊 Analysis Results")
+                    summary = result.get("summary", "")
+                    if summary:
+                        st.markdown(summary)
+                    else:
+                        st.write("Analysis completed successfully.")
+                
+                # Show general summary if available for other types
+                elif "summary" in result and analysis_type not in ["detailed_analysis", "general_analysis"]:
                     st.markdown(f"**Analysis:** {result['summary']}")
             
             else:

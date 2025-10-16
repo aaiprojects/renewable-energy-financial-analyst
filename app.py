@@ -69,11 +69,32 @@ st.markdown("""
   margin-bottom: 0;
 }
 
-/* Center align the navigation buttons */
+/* Center align the navigation buttons - comprehensive selectors */
 div[data-testid="column"] > div:has(button[key*="landing_"]) {
   display: flex;
   justify-content: center;
   margin-top: 15px;
+}
+
+/* Additional centering for nested columns */
+div[data-testid="column"] div[data-testid="column"] > div:has(button[key*="landing_"]) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+/* Ensure button containers are centered */
+div[data-testid="stVerticalBlock"]:has(button[key*="landing_"]) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Center the button element itself */
+button[key*="landing_"] {
+  margin: 0 auto !important;
+  display: block !important;
 }
 
 /* Style navigation buttons to match tile text color (#00d4ff) */
@@ -85,6 +106,15 @@ button[data-testid="baseButton-primary"] {
   color: #00d4ff !important;
   transition: all 0.3s ease !important;
   font-weight: bold !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  min-height: 38px !important;
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.875rem !important;
 }
 
 div[data-testid="stVerticalBlock"] button[kind="primary"]:hover,
@@ -121,10 +151,10 @@ with nav_col1:
     </div>
     """, unsafe_allow_html=True)
     
-    # Center the button using columns
-    _, btn_col, _ = st.columns([1, 2, 1])
+    # Center the button using columns with better ratio
+    _, btn_col, _ = st.columns([1.5, 1, 1.5])
     with btn_col:
-        if st.button("Launch Deep Dive", key="landing_deep_dive", type="primary", width="content"):
+        if st.button("🔍 Deep Dive", key="landing_deep_dive", type="primary", use_container_width=True):
             st.switch_page("pages/1_🔍_Deep_Dive_Analysis.py")
 
 with nav_col2:
@@ -135,10 +165,10 @@ with nav_col2:
     </div>
     """, unsafe_allow_html=True)
     
-    # Center the button using columns
-    _, btn_col, _ = st.columns([1, 2, 1])
+    # Center the button using columns with better ratio
+    _, btn_col, _ = st.columns([1.5, 1, 1.5])
     with btn_col:
-        if st.button("Launch Executive Summary", key="landing_executive", type="primary", width="content"):
+        if st.button("📊 Executive", key="landing_executive", type="primary", use_container_width=True):
             st.switch_page("pages/1_Executive_Summary_ProPlus.py")
 
 with nav_col3:
@@ -149,10 +179,10 @@ with nav_col3:
     </div>
     """, unsafe_allow_html=True)
     
-    # Center the button using columns
-    _, btn_col, _ = st.columns([1, 2, 1])
+    # Center the button using columns with better ratio
+    _, btn_col, _ = st.columns([1.5, 1, 1.5])
     with btn_col:
-        if st.button("Launch Assistant", key="landing_ai_assistant", type="primary", width="content"):
+        if st.button("🤖 Assistant", key="landing_ai_assistant", type="primary", use_container_width=True):
             if NL_AVAILABLE:
                 st.switch_page("pages/2_🤖_AI_Assistant.py")
             else:

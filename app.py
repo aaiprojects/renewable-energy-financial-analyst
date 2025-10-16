@@ -255,7 +255,17 @@ st.caption("Recent News")
 headlines = news.fetch_sector_news(days=3)
 if headlines:
     for item in headlines[:5]:
-        st.write(f"- {item.get('title', 'No title')}")
+        title = item.get('title', 'No title')
+        url = item.get('url', '')
+        description = item.get('description', '')
+        
+        if url:
+            # Create clickable hyperlink with description as tooltip
+            st.markdown(f"- 📰 **[{title}]({url})**", unsafe_allow_html=True)
+            if description:
+                st.caption(f"   ↳ {description[:120]}{'...' if len(description) > 120 else ''}")
+        else:
+            st.write(f"- 📰 {title}")
 else:
     st.info("News unavailable in this environment")
 

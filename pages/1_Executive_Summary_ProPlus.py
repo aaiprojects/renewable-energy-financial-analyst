@@ -5,8 +5,16 @@ import glob
 import os
 import altair as alt
 from src.dashboard.generate_dashboard import load_current_and_previous_runs, compute_confidence_deltas
+from src.components.navigation import render_navigation_bar
+from src.components.hide_sidebar import hide_sidebar_completely
 
 st.set_page_config(page_title="Executive Summary Pro+", layout="wide")
+
+# Hide sidebar completely - MUST be first thing after page config
+hide_sidebar_completely()
+
+# Navigation Bar
+render_navigation_bar(current_page="Executive Summary")
 
 # ---- Global styling & animation ----
 st.markdown("""
@@ -63,6 +71,30 @@ with st.sidebar:
 # Load run summaries
 try:
     current, previous, _ = load_current_and_previous_runs()
+    
+    # Check if no current analysis data exists - trigger auto-analysis
+    if not current:
+        with st.spinner("� Generating comprehensive analysis for all watchlist stocks..."):
+            # Import required components
+            from src.config.watchlist import WATCHLIST
+            from src.config.settings import Settings
+            from src.agent.orchestrator_lg import LGOrchestrator
+            
+            # Initialize orchestrator
+            cfg = Settings()
+            orch = LGOrchestrator(cfg)
+            
+            # Run analysis for each watchlist stock
+            for w in WATCHLIST:
+                try:
+                    result = orch.run(ticker=w.ticker, days=30, refresh=True)
+                except Exception as e:
+                    # Silently continue on errors to avoid disrupting the flow
+                    continue
+        
+        # Reload data after analysis
+        current, previous, _ = load_current_and_previous_runs()
+    
     df = compute_confidence_deltas(current, previous)
     st.write("✅ Data preview:", df.head())
     st.write("Row count:", len(df))

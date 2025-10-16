@@ -14,11 +14,15 @@ def render_navigation_bar(current_page="Home"):
     <style>
     .nav-container {
         background: linear-gradient(90deg, #0f1419 0%, #1c2833 50%, #0f1419 100%);
-        padding: 10px 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        border: 1px solid rgba(0, 212, 255, 0.3);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        padding: 5px 20px;
+        border-radius: 0px;
+        margin: -1rem -1rem 10px -1rem;
+        border: none;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 999;
     }
     .nav-button {
         background: transparent;
@@ -104,4 +108,3 @@ def render_navigation_bar(current_page="Home"):
         st.markdown('<p style="color: #00d4ff; text-align: right; margin: 0; font-size: 0.8rem;">✅ Live Data</p>', unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown("---")  # Separator line

@@ -25,6 +25,19 @@ st.set_page_config(page_title="Renewable Energy Financial Analyst", layout="wide
 # Hide sidebar
 hide_sidebar_completely()
 
+# Remove top padding to push navigation to very top
+st.markdown("""
+<style>
+.main .block-container {
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Navigation Bar (moved to top)
+render_navigation_bar(current_page="Home")
+
 # CSS Styling for Navigation Tiles
 st.markdown("""
 <style>
@@ -55,14 +68,46 @@ st.markdown("""
   line-height: 1.4;
   margin-bottom: 0;
 }
+
+/* Center align the navigation buttons */
+div[data-testid="column"] > div:has(button[key*="landing_"]) {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+/* Style navigation buttons to match tile text color (#00d4ff) */
+div[data-testid="stVerticalBlock"] button[kind="primary"],
+div[data-testid="column"] button[kind="primary"],
+button[data-testid="baseButton-primary"] {
+  background: linear-gradient(135deg, #0f1419 0%, #1c2833 100%) !important;
+  border: 2px solid #00d4ff !important;
+  color: #00d4ff !important;
+  transition: all 0.3s ease !important;
+  font-weight: bold !important;
+}
+
+div[data-testid="stVerticalBlock"] button[kind="primary"]:hover,
+div[data-testid="column"] button[kind="primary"]:hover,
+button[data-testid="baseButton-primary"]:hover {
+  background: linear-gradient(135deg, #00d4ff 0%, #0080cc 100%) !important;
+  border-color: #00d4ff !important;
+  color: #0f1419 !important;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+div[data-testid="stVerticalBlock"] button[kind="primary"]:active,
+div[data-testid="column"] button[kind="primary"]:active,
+button[data-testid="baseButton-primary"]:active {
+  background: linear-gradient(135deg, #0080cc 0%, #006699 100%) !important;
+  transform: translateY(0px) !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
 st.title("🔆 Renewable Energy Financial Analyst — Enhanced with Real Data Sources")
 st.caption("📡 Now powered by NewsAPI, SEC EDGAR, and FRED for real-time analysis")
-
-# Navigation Bar
-render_navigation_bar(current_page="Home")
 
 # Navigation Tiles
 st.markdown("## 🎯 Choose Your Analysis Path")
@@ -75,8 +120,12 @@ with nav_col1:
         <p>Comprehensive stock analysis using LangGraph + CrewAI with real-time data sources. Individual company research and batch processing.</p>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("Launch Deep Dive", key="landing_deep_dive", type="primary", width="stretch"):
-        st.switch_page("pages/1_🔍_Deep_Dive_Analysis.py")
+    
+    # Center the button using columns
+    _, btn_col, _ = st.columns([1, 2, 1])
+    with btn_col:
+        if st.button("Launch Deep Dive", key="landing_deep_dive", type="primary", width="content"):
+            st.switch_page("pages/1_🔍_Deep_Dive_Analysis.py")
 
 with nav_col2:
     st.markdown("""
@@ -85,8 +134,12 @@ with nav_col2:
         <p>View confidence trends and executive summaries with interactive charts. Track analysis history and performance metrics.</p>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("View Dashboard", key="landing_executive", type="primary", width="stretch"):
-        st.switch_page("pages/1_Executive_Summary_ProPlus.py")
+    
+    # Center the button using columns
+    _, btn_col, _ = st.columns([1, 2, 1])
+    with btn_col:
+        if st.button("Launch Executive Summary", key="landing_executive", type="primary", width="content"):
+            st.switch_page("pages/1_Executive_Summary_ProPlus.py")
 
 with nav_col3:
     st.markdown("""
@@ -95,11 +148,15 @@ with nav_col3:
         <p>Natural language queries with real-time data. Ask questions and get charts, analysis, and insights powered by multiple APIs.</p>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("Launch Assistant", key="landing_ai_assistant", type="primary", width="stretch"):
-        if NL_AVAILABLE:
-            st.switch_page("pages/2_🤖_AI_Assistant.py")
-        else:
-            st.error("⚠️ AI Assistant unavailable - missing dependencies")
+    
+    # Center the button using columns
+    _, btn_col, _ = st.columns([1, 2, 1])
+    with btn_col:
+        if st.button("Launch Assistant", key="landing_ai_assistant", type="primary", width="content"):
+            if NL_AVAILABLE:
+                st.switch_page("pages/2_🤖_AI_Assistant.py")
+            else:
+                st.error("⚠️ AI Assistant unavailable - missing dependencies")
 
 st.divider()
 

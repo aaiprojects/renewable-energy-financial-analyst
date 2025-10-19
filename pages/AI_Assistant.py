@@ -1,6 +1,7 @@
 # pages/2_🤖_AI_Assistant.py — Natural Language AI Assistant
 import streamlit as st
 import pandas as pd
+from uuid import uuid4
 
 # Try to load environment variables if dotenv is available
 try:
@@ -96,9 +97,15 @@ if analyze_button and user_query.strip():
                     # Show chart
                     chart = result.get("chart")
                     if chart:
-                        # Update chart to use full container width
-                        chart.update_layout(autosize=True)
-                        st.plotly_chart(chart)
+                        # Update chart to use full container width when Plotly is available
+                        if hasattr(chart, "update_layout"):
+                            chart.update_layout(autosize=True)
+                            chart_key = f"chart-{analysis_type}-{uuid4()}"
+                            st.plotly_chart(chart, use_container_width=True, key=chart_key)
+                        elif isinstance(chart, dict):
+                            st.warning(chart.get("message", "Plot unavailable. Install plotly>=5.17.0 for chart support."))
+                        else:
+                            st.warning("Chart format not supported in this environment.")
                     
                     # Show summary
                     summary = result.get("summary")

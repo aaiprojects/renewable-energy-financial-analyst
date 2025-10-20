@@ -83,19 +83,19 @@ def render_navigation_bar(current_page="Home"):
         with nav_col2:
             deep_dive_class = "nav-button active" if current_page == "Deep Dive" else "nav-button"
             if st.button("🔍 Deep Dive", key="nav_deep_dive", help="Stock analysis tools"):
-                st.switch_page("pages/1_🔍_Deep_Dive_Analysis.py")
+                st.switch_page("pages/Deep_Dive_Analysis.py")
         
         with nav_col3:
             executive_class = "nav-button active" if current_page == "Executive Summary" else "nav-button"
             if st.button("📊 Executive", key="nav_executive", help="Executive summaries & charts"):
-                st.switch_page("pages/1_Executive_Summary_ProPlus.py")
+                st.switch_page("pages/Executive_Summary_ProPlus.py")
         
         with nav_col4:
             ai_class = "nav-button active" if current_page == "AI Assistant" else "nav-button"
             if st.button("🤖 AI Assistant", key="nav_ai", help="Natural language queries"):
                 try:
                     from src.agent.nl_orchestrator import NLOrchestrator
-                    st.switch_page("pages/2_🤖_AI_Assistant.py")
+                    st.switch_page("pages/AI_Assistant.py")
                 except ImportError:
                     st.error("⚠️ AI Assistant unavailable")
         

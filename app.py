@@ -155,7 +155,7 @@ with nav_col1:
     _, btn_col, _ = st.columns([1.5, 1, 1.5])
     with btn_col:
         if st.button("🔍 Deep Dive", key="landing_deep_dive", type="primary", use_container_width=True):
-            st.switch_page("pages/1_🔍_Deep_Dive_Analysis.py")
+            st.switch_page("pages/Deep_Dive_Analysis.py")
 
 with nav_col2:
     st.markdown("""
@@ -169,7 +169,7 @@ with nav_col2:
     _, btn_col, _ = st.columns([1.5, 1, 1.5])
     with btn_col:
         if st.button("📊 Executive", key="landing_executive", type="primary", use_container_width=True):
-            st.switch_page("pages/1_Executive_Summary_ProPlus.py")
+            st.switch_page("pages/Executive_Summary_ProPlus.py")
 
 with nav_col3:
     st.markdown("""
@@ -184,7 +184,7 @@ with nav_col3:
     with btn_col:
         if st.button("🤖 Assistant", key="landing_ai_assistant", type="primary", use_container_width=True):
             if NL_AVAILABLE:
-                st.switch_page("pages/2_🤖_AI_Assistant.py")
+                st.switch_page("pages/AI_Assistant.py")
             else:
                 st.error("⚠️ AI Assistant unavailable - missing dependencies")
 
@@ -222,7 +222,7 @@ with st.expander("🔧 Market Filters & Data Sources", expanded=False):
     with col3:
         st.markdown("**⚡ Quick Actions**")
         if st.button("🎯 Run Quick Analysis", help="Launch Deep Dive for quick analysis"):
-            st.switch_page("pages/1_🔍_Deep_Dive_Analysis.py")
+            st.switch_page("pages/Deep_Dive_Analysis.py")
 
 # Market Snapshot
 st.subheader("Market Snapshot")
